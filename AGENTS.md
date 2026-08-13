@@ -14,4 +14,4 @@
 - Avoid notebooks for core implementation. Use notebooks for exploration, visualisation, and
   reproducing papers.
 - Keep field-specific data separate from generic geometric and combinatorial algorithms so that
-  \(d=11\) and later cases can reuse the machinery.
+  $d=11$ and later cases can reuse the machinery.

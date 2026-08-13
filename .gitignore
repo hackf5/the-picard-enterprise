@@ -9,6 +9,9 @@ dist/
 # Pixi
 .pixi/
 
+# Lean and Lake
+.lake/
+
 # Tests and tooling
 .coverage
 htmlcov/
