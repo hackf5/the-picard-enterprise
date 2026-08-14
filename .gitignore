@@ -22,6 +22,7 @@ htmlcov/
 # Sage and notebooks
 *.sage.py
 .ipynb_checkpoints/
+.jupyter-data/
 
 # Editors and operating systems
 .idea/

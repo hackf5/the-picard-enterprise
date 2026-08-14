@@ -23,15 +23,25 @@ sage = "10.9.*"
 pytest = "*"
 ruff = "*"
 pyright = "*"
+jupytext = ">=1.19.5,<2"
 
 [tool.pixi.pypi-dependencies]
 picard-enterprise = { path = ".", editable = true }
+
+[tool.pixi.activation.env]
+JUPYTER_CONFIG_DIR = ".jupyter-data/config"
+JUPYTER_DATA_DIR = ".jupyter-data/data"
+JUPYTER_RUNTIME_DIR = ".jupyter-data/runtime"
 
 [tool.pixi.tasks]
 test = "pytest"
 lint = "ruff check ."
 format-check = "ruff format --check ."
 typecheck = "pyright"
+course-sync = "jupytext --sync"
+course-check = "jupytext --to ipynb --test-strict"
+course-execute = "jupyter execute --inplace --timeout=120"
+course-lab = "jupyter lab"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
