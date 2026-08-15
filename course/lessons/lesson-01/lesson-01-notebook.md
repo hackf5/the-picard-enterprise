@@ -1,32 +1,26 @@
 # Lesson 1 — What Is a Proof?
 
-## From “even + even = even” to a complete mathematical proof
+## From experiment to conjecture to proof
 
-We begin with a fact that feels almost too obvious to prove:
+## 1. From examples to a conjecture
 
-> **An even number plus an even number is even.**
+Take two even natural numbers and add them. Trying a few examples gives $2+4=6$, $8+10=18$, and $100+200=300$.
 
-That is deliberate.
+Every sum we have tried is even. Suppose we keep going, checking many different pairs, and still fail to find two even natural numbers whose sum is not even.
 
-The purpose of this lesson is not to discover something surprising about even numbers. It is to learn, on the smallest possible example, how to:
+Such a pair would be a **counterexample**: a single example showing that a general claim is false. We have not found one.
 
-1. understand exactly what a mathematical statement says;
-2. read the symbols as a sentence;
-3. unpack a definition;
-4. identify what a proof must actually produce;
-5. construct that proof and verify that it works.
+The calculations provide evidence for a pattern. The more cases we check, the more compelling that evidence may become. But any finite collection of calculations leaves infinitely many pairs unchecked.
 
-Two principles will guide the lesson:
+When evidence suggests a general pattern, we can state a **conjecture**: a precise mathematical claim that we believe is true but have not yet proved.
 
-> **Translate faithfully before translating fluently.**
+> **Conjecture.** The sum of two even natural numbers is even.
 
-and:
+One counterexample would show that the conjecture is false. Failing to find a counterexample does not prove that it is true. To settle the question, we need an argument that covers every pair of even natural numbers.
 
-> **Introduce notation only after the idea it compresses has been understood.**
+Before constructing that argument, we must understand exactly what the conjecture says. We begin with the word **even**.
 
-Mathematicians use notation to reduce cognitive load. But notation only helps once we know what it is abbreviating.
-
-## 1. What does “even” mean?
+## 2. What does “even” mean?
 
 We will work with the **natural numbers**:
 
@@ -58,7 +52,7 @@ A more natural reading is:
 
 These are two English renderings of the same mathematical statement. The first part introduces the number whose existence is claimed; the second gives the condition it must satisfy. English naturally joins those parts with **such that**.
 
-### 1.1 Proving that a number is even
+### 2.1 Proving that a number is even
 
 Suppose we want to prove that $6$ is even. The definition asks us to produce a natural number $k$ satisfying $6=2k$.
 
@@ -78,13 +72,13 @@ This gives us a useful proof habit:
 
 > **Prove what the statement requires, and no more.**
 
-### 1.2 Why is $\;0\;$ even?
+### 2.2 Why is $\;0\;$ even?
 
 The definition asks us to find a witness: a natural number $k$ satisfying $0=2k$. Choose $k=0$. Since $0=2\cdot0$, this witness works, so the number $0$ is even.
 
 A precise definition settles the matter immediately.
 
-## 2. Predicates and notation
+## 3. Predicates and notation
 
 The phrase “is even” describes a property that a natural number may or may not have. A property or condition that can be applied to an object is called a **predicate**.
 
@@ -101,19 +95,11 @@ More precisely, applying a mathematical predicate to an object produces a statem
 
 Nothing new has been added to the mathematics. We have simply named a property we already understand.
 
-This notation lets us state the theorem without repeatedly writing the full definition of evenness.
+This notation lets us state the conjecture without repeatedly writing the full definition of evenness.
 
-## 3. What exactly are we trying to prove?
+## 4. What exactly does the conjecture say?
 
-The informal sentence
-
-> even + even = even
-
-is not yet a fully precise theorem. What we mean is:
-
-> For every pair of natural numbers $a$ and $b$, if $a$ is even and $b$ is even, then $a+b$ is even.
-
-Using the predicate we have just introduced, we can write this as:
+The conjecture makes a claim about every pair of natural numbers, not just the examples we have checked. Using the predicate we have just introduced, we can write it as:
 
 $$
 \forall a,b\in\mathbb N,\qquad
@@ -130,7 +116,7 @@ The new symbols are:
 
 The expressions to the left of $\Longrightarrow$ are the **assumptions**: $a$ is even and $b$ is even. The expression to the right is the **conclusion**: $a+b$ is even.
 
-## 4. From the assumptions to the conclusion
+## 5. From the assumptions to the conclusion
 
 Suppose $a$ and $b$ are even. By the definition of evenness, there are natural numbers $m$ and $n$ such that
 
@@ -157,7 +143,7 @@ The target has the form $a+b=2k$, so the correct witness is $k=m+n$.
 
 Because $m$ and $n$ are natural numbers, $m+n$ is also a natural number. We have therefore produced a valid witness, and the proof is complete.
 
-### 4.1 What are we taking for granted?
+### 5.1 What are we taking for granted?
 
 The proof uses two familiar facts that we have not proved here.
 
@@ -171,7 +157,9 @@ We will use a practical rule throughout the course:
 
 > **Be explicit about what we are taking for granted, but only chase those facts back to their foundations when doing so helps with the mathematics we are currently trying to understand.**
 
-## 5. The proof in ordinary mathematical prose
+## 6. The conjecture becomes a theorem
+
+A **theorem** is a mathematical statement that has been proved. The argument above establishes our conjecture, so we can now state it as a theorem and present the proof in ordinary mathematical prose.
 
 > **Theorem.** The sum of two even natural numbers is even.
 >
@@ -185,43 +173,10 @@ We will use a practical rule throughout the course:
 
 The symbol $\square$ marks the end of the proof.
 
+## 7. Why the proof works for every case
 
+The examples at the beginning checked particular sums. In the proof, $a$ and $b$ were arbitrary even natural numbers: no special values were chosen.
 
-## 6. What was the important move?
+The assumptions supplied witnesses $m$ and $n$. Constructing $m+n$ gave the witness required for $a+b$. Because this construction works for any such $m$ and $n$, the proof applies to every pair of even natural numbers.
 
-The arithmetic $2m+2n=2(m+n)$ is elementary. The more important move is logical.
-
-The assumptions supplied two witnesses, $m$ and $n$. The conclusion required a new witness, and we constructed $m+n$. The proof therefore contains the transformation
-
-$$
-(m,n)\longmapsto m+n
-$$
-
-The general pattern is:
-
-> **unpack the assumptions → construct what the conclusion asks for → verify that it works.**
-
-This pattern will appear repeatedly throughout the course.
-
-## 7. Why checking examples is not a proof
-
-We could calculate $2+4=6$, $8+10=18$, and $100+200=300$. Every example supports the claim, but the theorem begins with $\forall a,b\in\mathbb N$: it makes a claim about every pair of natural numbers.
-
-Checking any finite number of examples leaves infinitely many cases unchecked. Our proof instead begins with arbitrary even natural numbers $a$ and $b$ and uses only the information contained in the statement that they are even. That is why one proof covers every case.
-
-## 8. What have we learned?
-
-The theorem itself is elementary, but the method is general:
-
-- mathematical notation expresses complete statements that can be read in words;
-- definitions tell us what information an assumption contains and what a conclusion requires;
-- an existential statement asks for at least one witness, not a proof of uniqueness;
-- a predicate gives a reusable name to a property we already understand;
-- checking examples is different from proving a claim about every case;
-- the central act of this proof was constructing the witness $m+n$.
-
-The working pattern is:
-
-> **read → unpack → construct → verify.**
-
-In a separate Lesson 1 companion, we will introduce Lean from the beginning and use it to check this same proof. Because the mathematics is now understood, we will be able to concentrate on what the Lean language says and how its proof follows the structure we have built here.
+The next Lesson 1 document will express the same argument in Lean.
