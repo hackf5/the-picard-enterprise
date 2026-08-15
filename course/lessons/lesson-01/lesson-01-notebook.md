@@ -1,6 +1,6 @@
 # Lesson 1 — What Is a Proof?
 
-## From “even + even = even” to a machine-checked theorem
+## From “even + even = even” to a complete mathematical proof
 
 We begin with a fact that feels almost too obvious to prove:
 
@@ -14,10 +14,9 @@ The purpose of this lesson is not to discover something surprising about even nu
 2. read the symbols as a sentence;
 3. unpack a definition;
 4. identify what a proof must actually produce;
-5. construct that proof;
-6. translate the same reasoning into Lean.
+5. construct that proof and verify that it works.
 
-Two principles will guide the lesson.
+Two principles will guide the lesson:
 
 > **Translate faithfully before translating fluently.**
 
@@ -32,418 +31,145 @@ Mathematicians use notation to reduce cognitive load. But notation only helps on
 We will work with the **natural numbers**:
 
 $$
-\mathbb N=\{0,1,2,3,\ldots\}.
+\mathbb N=\{0,1,2,3,\ldots\}
 $$
 
 The symbol $\mathbb N$ is the conventional symbol for the natural numbers.
 
-A natural number $n$ is **even** if there exists a natural number $k$ such that
-
-$$
-n=2k.
-$$
-
-In symbols:
-
-$$
-\exists k\in\mathbb N,\;n=2k.
-$$
-
-New symbols:
-
-- $\exists$ means **there exists a**;
-- $\in$ means **in**, or more formally **is an element of**;
-- $\mathbb N$ means **the natural numbers**.
-
-So we read
+A natural number $n$ is **even** if $n=2k$ for some natural number $k$. In symbols:
 
 $$
 \exists k\in\mathbb N,\;n=2k
 $$
 
-as:
+The new symbols are:
+
+- $\exists$, which means **there exists a**;
+- $\in$, which means **is in**, or more formally **is an element of**;
+- $\mathbb N$, which means **the natural numbers**.
+
+A deliberately faithful reading is:
 
 > There exists a $k$ in the natural numbers such that $n=2k$.
 
-Or, more naturally:
+A more natural reading is:
 
 > There exists a natural number $k$ such that $n=2k$.
 
-These are two English renderings of the same mathematical statement.
-
-The phrase **such that** is part of the way we read the structure of the sentence. We will examine that more carefully in the appendix.
+These are two English renderings of the same mathematical statement. The first part introduces the number whose existence is claimed; the second gives the condition it must satisfy. English naturally joins those parts with **such that**.
 
 ### 1.1 Proving that a number is even
 
-Suppose we want to prove that $6$ is even.
+Suppose we want to prove that $6$ is even. The definition asks us to produce a natural number $k$ satisfying $6=2k$.
 
-The definition tells us exactly what we need:
+Choose $k=3$. Then $6=2\cdot3$, so $6$ is even.
 
-$$
-\exists k\in\mathbb N,\;6=2k.
-$$
-
-So we need to produce a natural number $k$ for which
-
-$$
-6=2k.
-$$
-
-Choose
-
-$$
-k=3.
-$$
-
-Then
-
-$$
-6=2\cdot3.
-$$
-
-Therefore $6$ is even.
-
-The number $3$ is called a **witness**.
-
-A witness is an object whose existence was claimed and which we explicitly produce.
-
-Here the claim was:
-
-> There exists a natural number $k$ such that $6=2k$.
-
-The number $3$ is a value of $k$ that satisfies the condition.
+The number $3$ is called a **witness**. A witness is an object whose existence was claimed and which we explicitly produce. Here, $3$ is a value of $k$ that satisfies the required condition.
 
 #### Does “a witness” mean there might be others?
 
-No.
+No. The statement $\exists k\in\mathbb N,\;6=2k$ claims only that **at least one** suitable natural number exists. It does not say that there is more than one.
 
-The statement
+In fact, $3$ is the only natural number that works here. But proving uniqueness would be a different task: we would need to prove both that a suitable $k$ exists and that no other $k$ works.
 
-$$
-\exists k\in\mathbb N,\;6=2k
-$$
+The definition of evenness asks only for existence. Once we have produced $k=3$ and checked it, the required proof is complete.
 
-says only:
-
-> There exists **at least one** natural number $k$ such that $6=2k$.
-
-It does not say that there is more than one.
-
-In fact, $k=3$ is the only natural number that works here.
-
-We could prove the stronger statement:
-
-> There exists exactly one natural number $k$ such that $6=2k$.
-
-But that would be a different task. We would have to prove both:
-
-1. that such a $k$ exists;
-2. that no other $k$ works.
-
-The definition of evenness asks us only for existence.
-
-Once we have produced $k=3$ and checked that it works, the required proof is complete.
-
-This gives us another useful proof habit:
+This gives us a useful proof habit:
 
 > **Prove what the statement requires, and no more.**
 
 ### 1.2 Why is $\;0\;$ even?
 
-The definition asks whether there exists a natural number $k$ such that
-
-$$
-0=2k.
-$$
-
-Choose
-
-$$
-k=0.
-$$
-
-Then
-
-$$
-0=2\cdot0.
-$$
-
-Therefore $0$ is even.
+The definition asks us to find a witness: a natural number $k$ satisfying $0=2k$. Choose $k=0$. Since $0=2\cdot0$, this witness works, so the number $0$ is even.
 
 A precise definition settles the matter immediately.
 
-## 2. What exactly are we trying to prove?
+## 2. Predicates and notation
+
+The phrase “is even” describes a property that a natural number may or may not have. A property or condition that can be applied to an object is called a **predicate**.
+
+We already understand evenness in its expanded form, so we can now give this predicate a short name. On paper, we may write:
+
+$$
+\operatorname{Even}(n)\quad\text{means}\quad
+\exists k\in\mathbb N,\;n=2k
+$$
+
+For a reader with programming experience, a useful first model is a function that takes an input and returns `true` or `false`. Give `Even` the input $6$, and the result is `true`; give it the input $7$, and the result is `false`.
+
+More precisely, applying a mathematical predicate to an object produces a statement about that object, and the statement is either true or false. The predicate does not have to tell a computer how to calculate the answer; it specifies the condition that must be proved or disproved.
+
+Nothing new has been added to the mathematics. We have simply named a property we already understand.
+
+This notation lets us state the theorem without repeatedly writing the full definition of evenness.
+
+## 3. What exactly are we trying to prove?
 
 The informal sentence
 
 > even + even = even
 
-is not yet a fully precise theorem.
-
-What we mean is:
+is not yet a fully precise theorem. What we mean is:
 
 > For every pair of natural numbers $a$ and $b$, if $a$ is even and $b$ is even, then $a+b$ is even.
 
-New symbols:
-
-- $\forall$ means **for every**;
-- $\land$ means **and**;
-- $\Longrightarrow$ means **implies**.
-
-If we expand the word **even** using its definition, the theorem can be written entirely in symbols as:
+Using the predicate we have just introduced, we can write this as:
 
 $$
 \forall a,b\in\mathbb N,\qquad
-\left(
-\exists m\in\mathbb N,\;a=2m
-\right)
-\land
-\left(
-\exists n\in\mathbb N,\;b=2n
-\right)
+\operatorname{Even}(a)\land\operatorname{Even}(b)
 \Longrightarrow
-\left(
-\exists k\in\mathbb N,\;a+b=2k
-\right).
+\operatorname{Even}(a+b)
 $$
 
-That looks formidable for such a simple claim, so let us read it in pieces.
+The new symbols are:
 
-First:
+- $\forall$, which means **for every**;
+- $\land$, which means **and**;
+- $\Longrightarrow$, which means **implies**, or **if ... then ...**.
 
-$$
-\forall a,b\in\mathbb N
-$$
+The expressions to the left of $\Longrightarrow$ are the **assumptions**: $a$ is even and $b$ is even. The expression to the right is the **conclusion**: $a+b$ is even.
 
-means:
+## 4. From the assumptions to the conclusion
 
-> For every $a$ and $b$ in the natural numbers.
-
-Next:
-
-$$
-\exists m\in\mathbb N,\;a=2m
-$$
-
-means:
-
-> There exists a natural number $m$ such that $a=2m$.
-
-And:
-
-$$
-\exists n\in\mathbb N,\;b=2n
-$$
-
-means:
-
-> There exists a natural number $n$ such that $b=2n$.
-
-The symbol
-
-$$
-\land
-$$
-
-joins those two claims with **and**.
-
-Finally:
-
-$$
-\exists k\in\mathbb N,\;a+b=2k
-$$
-
-means:
-
-> There exists a natural number $k$ such that $a+b=2k$.
-
-So the whole symbolic statement says:
-
-> For every $a$ and $b$ in the natural numbers, if there exists a natural number $m$ such that $a=2m$, and there exists a natural number $n$ such that $b=2n$, then there exists a natural number $k$ such that $a+b=2k$.
-
-That is a faithful translation.
-
-Once we understand it, we can compress it back into ordinary mathematical English:
-
-> For every pair of natural numbers $a$ and $b$, if $a$ and $b$ are even, then $a+b$ is even.
-
-The shorter sentence is easier to think about because the meaning of **even** is now understood.
-
-This is exactly why mathematicians introduce definitions and notation: not to make mathematics obscure, but to avoid carrying the full expanded statement in our heads every time.
-
-## 3. What do the assumptions give us?
-
-Suppose $a$ and $b$ are even.
-
-By the definition of evenness:
-
-$$
-a=2m
-$$
-
-for some natural number $m$, and
-
-$$
-b=2n
-$$
-
-for some natural number $n$.
-
-That is all we need from the assumptions.
-
-Earlier, while the notation was new, we wrote:
-
-$$
-\exists m\in\mathbb N,\;a=2m.
-$$
-
-Now we are comfortable saying:
-
-> $a=2m$ for some natural number $m$.
-
-The mathematical content is the same. We are simply allowing the language to become more fluent.
-
-So our useful information is:
+Suppose $a$ and $b$ are even. By the definition of evenness, there are natural numbers $m$ and $n$ such that
 
 $$
 a=2m,
 \qquad
-b=2n,
+b=2n
 $$
 
-where $m,n\in\mathbb N$.
+The numbers $m$ and $n$ are witnesses supplied by our assumptions.
 
-This is the entire engine of the proof.
+We want to prove that $a+b$ is even. By definition, we must find a natural number $k$ such that $a+b=2k$. In other words, we must find a witness for $a+b$.
 
-## 4. What must the proof produce?
-
-We want to prove that $a+b$ is even.
-
-By definition, that means we need some natural number $k$ such that
+Using the two equations supplied by the assumptions:
 
 $$
-a+b=2k.
+\begin{aligned}
+a+b&=2m+2n\\
+   &=2(m+n)
+\end{aligned}
 $$
 
-So the proof has a very concrete target:
+The target has the form $a+b=2k$, so the correct witness is $k=m+n$.
 
-> **Find a suitable $k$.**
+Because $m$ and $n$ are natural numbers, $m+n$ is also a natural number. We have therefore produced a valid witness, and the proof is complete.
 
-We know:
+### 4.1 What are we taking for granted?
 
-$$
-a=2m
-$$
+The proof uses two familiar facts that we have not proved here.
 
-and
+First, if $m$ and $n$ are natural numbers, then $m+n$ is a natural number. This is called **closure of the natural numbers under addition**.
 
-$$
-b=2n.
-$$
+Second, we use $2m+2n=2(m+n)$, an instance of the **distributive law**.
 
-Therefore:
-
-$$
-a+b=2m+2n.
-$$
-
-Factor out $2$:
-
-$$
-a+b=2(m+n).
-$$
-
-Now compare:
-
-$$
-a+b=2(m+n)
-$$
-
-with the form we need:
-
-$$
-a+b=2k.
-$$
-
-The correct witness is therefore
-
-$$
-k=m+n.
-$$
-
-Because $m$ and $n$ are natural numbers, $m+n$ is also a natural number.
-
-So $m+n$ is a witness proving that $a+b$ is even.
-
-That is the proof.
-
-## 4.1 What are we taking for granted?
-
-There are two apparently obvious steps in the argument that we have not proved.
-
-First, we used the fact that if $m$ and $n$ are natural numbers, then
-
-$$
-m+n
-$$
-
-is also a natural number.
-
-In symbols:
-
-$$
-m,n\in\mathbb N
-\Longrightarrow
-m+n\in\mathbb N.
-$$
-
-This is called **closure of the natural numbers under addition**.
-
-Second, we used:
-
-$$
-2m+2n=2(m+n).
-$$
-
-This is an instance of the **distributive law**.
-
-Both facts are true, but we have not proved them here.
-
-Mathematics has to start somewhere.
-
-We begin by accepting certain statements, called **axioms**, without proof. From those starting assumptions, we can prove further results, and later use those results without proving them again every time.
-
-In this lesson, we are not going all the way back to those foundations. We are simply treating these familiar facts about arithmetic as already established.
-
-We could ask why closure under addition is true.
-
-We could ask why the distributive law is true.
-
-And we could keep following those questions backwards towards the foundations of arithmetic.
-
-Those are perfectly legitimate mathematical questions, but they are not the questions we are trying to answer here.
-
-Our aim is to understand the proof that the sum of two even numbers is even.
-
-So, for this proof, we will take the following as established background facts:
-
-1. **Closure of $\mathbb N$ under addition**
-   $$
-   m,n\in\mathbb N
-   \Longrightarrow
-   m+n\in\mathbb N;
-   $$
-
-2. **The distributive law**
-   $$
-   2m+2n=2(m+n).
-   $$
+Mathematics has to start somewhere. Some statements are accepted as starting assumptions, called **axioms**; other established facts have already been proved from those assumptions. In this lesson, we treat these familiar facts about arithmetic as established rather than tracing them back to the foundations of the natural numbers.
 
 We will use a practical rule throughout the course:
 
 > **Be explicit about what we are taking for granted, but only chase those facts back to their foundations when doing so helps with the mathematics we are currently trying to understand.**
-
-For now, we know these boxes are there. We are simply choosing not to open them yet.
 
 ## 5. The proof in ordinary mathematical prose
 
@@ -452,56 +178,26 @@ For now, we know these boxes are there. We are simply choosing not to open them 
 > **Proof.** Let $a$ and $b$ be even natural numbers. Then there exist $m,n\in\mathbb N$ such that $a=2m$ and $b=2n$. Hence
 >
 > $$
-> a+b=2m+2n=2(m+n).
+> a+b=2m+2n=2(m+n)
 > $$
 >
 > Since $m+n\in\mathbb N$, the number $a+b$ is even. $\square$
 
 The symbol $\square$ marks the end of the proof.
 
-This proof is short because several ideas have now been compressed:
 
-- we know what “even” means;
-- we know how to read “there exist $m,n$”;
-- we know that producing $m+n$ proves the required existential statement.
-
-The short proof is not doing less mathematics. It is assuming that the reader no longer needs every step unpacked.
 
 ## 6. What was the important move?
 
-The arithmetic
+The arithmetic $2m+2n=2(m+n)$ is elementary. The more important move is logical.
+
+The assumptions supplied two witnesses, $m$ and $n$. The conclusion required a new witness, and we constructed $m+n$. The proof therefore contains the transformation
 
 $$
-2m+2n=2(m+n)
+(m,n)\longmapsto m+n
 $$
 
-is elementary.
-
-The logical move is more important.
-
-From the assumptions we obtained two witnesses:
-
-$$
-m
-\qquad\text{and}\qquad
-n.
-$$
-
-The conclusion required a new witness.
-
-We constructed:
-
-$$
-m+n.
-$$
-
-So the proof contains the transformation
-
-$$
-(m,n)\longmapsto m+n.
-$$
-
-The pattern is:
+The general pattern is:
 
 > **unpack the assumptions → construct what the conclusion asks for → verify that it works.**
 
@@ -509,100 +205,23 @@ This pattern will appear repeatedly throughout the course.
 
 ## 7. Why checking examples is not a proof
 
-We could calculate:
+We could calculate $2+4=6$, $8+10=18$, and $100+200=300$. Every example supports the claim, but the theorem begins with $\forall a,b\in\mathbb N$: it makes a claim about every pair of natural numbers.
 
-$$
-2+4=6,
-$$
+Checking any finite number of examples leaves infinitely many cases unchecked. Our proof instead begins with arbitrary even natural numbers $a$ and $b$ and uses only the information contained in the statement that they are even. That is why one proof covers every case.
 
-$$
-8+10=18,
-$$
+## 8. What have we learned?
 
-$$
-100+200=300.
-$$
+The theorem itself is elementary, but the method is general:
 
-Every example supports the claim.
+- mathematical notation expresses complete statements that can be read in words;
+- definitions tell us what information an assumption contains and what a conclusion requires;
+- an existential statement asks for at least one witness, not a proof of uniqueness;
+- a predicate gives a reusable name to a property we already understand;
+- checking examples is different from proving a claim about every case;
+- the central act of this proof was constructing the witness $m+n$.
 
-But the theorem begins with:
+The working pattern is:
 
-$$
-\forall a,b\in\mathbb N.
-$$
+> **read → unpack → construct → verify.**
 
-That means:
-
-> For every pair of natural numbers $a$ and $b$.
-
-Checking any finite number of examples leaves infinitely many unchecked.
-
-Our proof does something different.
-
-It begins with arbitrary even natural numbers $a$ and $b$ and uses only the information contained in the statement that they are even.
-
-That is why one proof covers every case.
-
-## 8. We have now earned a piece of notation
-
-So far we have deliberately written:
-
-> $a$ is even
-
-rather than inventing a new mathematical symbol for it.
-
-We did that because notation should reduce cognitive load, not add to it.
-
-But we are about to write the same idea in Lean, where giving the property a name is useful.
-
-We can define a predicate called `Even`.
-
-On paper, we could write:
-
-$$
-\operatorname{Even}(n)
-$$
-
-to mean:
-
-$$
-\exists k\in\mathbb N,\;n=2k.
-$$
-
-Nothing new has been added to the mathematics.
-
-We have simply given a short name to a property we already understand.
-
-This is something mathematicians do constantly.
-
-A complicated idea is first defined explicitly. Once it has become familiar, it is given a name or symbol so that later arguments can be written without repeatedly expanding the whole definition.
-
-## 9. A brief note about predicates
-
-`Even` is a **predicate**.
-
-A predicate is a property or condition that can be applied to an object.
-
-For example:
-
-$$
-\operatorname{Even}(6)
-$$
-
-is the statement:
-
-> $6$ is even.
-
-And:
-
-$$
-\operatorname{Even}(7)
-$$
-
-is the statement:
-
-> $7$ is even.
-
-The first is true; the second is false.
-
-It is useful to think of a predicate as function-like: we supply an input, and obtain a proposition about that input.
+In a separate Lesson 1 companion, we will introduce Lean from the beginning and use it to check this same proof. Because the mathematics is now understood, we will be able to concentrate on what the Lean language says and how its proof follows the structure we have built here.
